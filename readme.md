@@ -15,6 +15,10 @@ A Chrome extension that automatically suspends inactive tabs to save memory and 
   - Chrome system pages
   - Whitelisted URLs
 
+## Screenshots
+
+![Tab Suspender Extension](images/Screenshot%202026-04-12%20at%2014.36.01.png)
+
 ## Installation
 
 ### From Source
