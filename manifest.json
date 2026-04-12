@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Suspender",
+  "version": "1.0.0",
+  "description": "Automatically suspend inactive tabs to save memory",
+  "permissions": [
+    "tabs",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/favicon-16x16.png",
+      "48": "icons/favicon-32x32.png",
+      "128": "icons/android-chrome-192x192.png"
+    }
+  },
+  "icons": {
+    "16": "icons/favicon-16x16.png",
+    "48": "icons/favicon-32x32.png",
+    "128": "icons/android-chrome-192x192.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
