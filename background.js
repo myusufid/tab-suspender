@@ -30,6 +30,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   chrome.alarms.create('checkTabs', { periodInMinutes: 1 });
   log('⏰ Alarm created: checking tabs every 1 minute');
 
+  // Initialize activity timestamps for all existing tabs
+  await initializeTabActivity();
+
   // On update, restore suspended tabs
   if (details.reason === 'update') {
     log('🔄 Extension updated, checking for suspended tabs to restore...');
@@ -74,9 +77,30 @@ async function restoreSuspendedTabsAfterUpdate() {
 }
 
 // Wake up on browser startup
-chrome.runtime.onStartup.addListener(() => {
+chrome.runtime.onStartup.addListener(async () => {
   log('🌅 Browser started');
+  await initializeTabActivity();
 });
+
+// Initialize activity timestamps for all existing tabs
+async function initializeTabActivity() {
+  try {
+    const tabs = await chrome.tabs.query({});
+    const now = Date.now();
+
+    for (const tab of tabs) {
+      // Only initialize if tab doesn't already have a timestamp
+      if (!tabActivity.has(tab.id)) {
+        tabActivity.set(tab.id, now);
+        log(`🆕 Initialized activity for tab ${tab.id}: "${tab.title}"`);
+      }
+    }
+
+    log(`✅ Initialized ${tabs.length} tab activities`);
+  } catch (error) {
+    log('❌ Error initializing tab activity:', error);
+  }
+}
 
 // Track tab activation
 chrome.tabs.onActivated.addListener((activeInfo) => {
@@ -129,7 +153,13 @@ async function checkAndSuspendTabs() {
   let skipped = 0;
 
   for (const tab of tabs) {
-    const lastActivity = tabActivity.get(tab.id) || now;
+    // Initialize tab activity if not tracked yet
+    if (!tabActivity.has(tab.id)) {
+      tabActivity.set(tab.id, now);
+      log(`🆕 First time seeing tab ${tab.id}, initializing activity timestamp`);
+    }
+
+    const lastActivity = tabActivity.get(tab.id);
     const inactiveTime = now - lastActivity;
     const minutesInactive = Math.floor(inactiveTime / 1000 / 60);
 
