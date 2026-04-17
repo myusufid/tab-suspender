@@ -1,7 +1,20 @@
 // Default settings
 const DEFAULT_SETTINGS = {
   suspendTime: 3, // minutes
-  whitelist: [],
+  whitelist: [
+    '*meet.google.com*',
+    '*teams.microsoft.com*',
+    '*zoom.us*',
+    '*webex.com*',
+    '*whereby.com*',
+    '*discord.com*',
+    '*slack.com/call*',
+    '*hangouts.google.com*',
+    '*skype.com*',
+    '*gotomeeting.com*',
+    '*bluejeans.com*',
+    '*chime.aws*'
+  ],
   enabled: true
 };
 
