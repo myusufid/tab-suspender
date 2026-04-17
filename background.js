@@ -1,6 +1,6 @@
 // Default settings
 const DEFAULT_SETTINGS = {
-  suspendTime: 10, // minutes
+  suspendTime: 3, // minutes
   whitelist: [],
   enabled: true
 };

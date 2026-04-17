@@ -48,6 +48,12 @@ if (favIconUrl && favIconUrl !== 'undefined' && favIconUrl !== '') {
     faviconContainer.remove();
   };
   faviconContainer.appendChild(img);
+
+  // Also set as page favicon with grayscale effect
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.href = favIconUrl;
+  document.head.appendChild(link);
 }
 
 // Restore tab when button is clicked
